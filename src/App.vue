@@ -101,9 +101,7 @@ export default {
       if (this.outputFieldsSelected.length>0 && this.outputFieldsSelected[0]>0){
         for(let i=this.outputFieldsSelected.length-1;i>=0;i--){
           let index=this.outputFieldsSelected[i]
-          let tmp=this.outputFields[index]
-          this.outputFields.splice(index,1)
-          this.outputFields.splice(index-1,0,tmp)
+          this.outputFields[index] = this.outputFields.splice(index-1, 1, this.outputFields[index])[0]; // exchange shortcut
         }
         this.outputFieldsSelected = this.outputFieldsSelected.map(x => x-1)
       }
@@ -112,9 +110,7 @@ export default {
       if (this.outputFieldsSelected.length>0 && this.outputFieldsSelected[this.outputFieldsSelected.length-1]<this.outputFields.length-1){
         for(let i=this.outputFieldsSelected.length-1;i>=0;i--){
           let index=this.outputFieldsSelected[i]
-          let tmp=this.outputFields[index]
-          this.outputFields.splice(index,1)
-          this.outputFields.splice(index+1,0,tmp)
+          this.outputFields[index] = this.outputFields.splice(index+1, 1, this.outputFields[index])[0]; // exchange shortcut
         }
         this.outputFieldsSelected = this.outputFieldsSelected.map(x => x+1)
       }
