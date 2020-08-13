@@ -4,6 +4,7 @@
         <v-list-item
           v-for="(item, i) in list"
           @click="clickList($event,item,i)"
+          @dblclick="$emit('dblclick',item,i)"
           :key="i"
           :class="isSelected(i)?'selectlisthighlighted':''"          
           >

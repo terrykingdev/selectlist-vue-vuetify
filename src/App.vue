@@ -5,7 +5,7 @@
 
         <v-row>
           <v-col cols="4">
-            <SelectList :list="availableOutputFields" :selectedList="availableOutputFieldsSelected" />
+            <SelectList :list="availableOutputFields" :selectedList="availableOutputFieldsSelected" @dblclick="addThis"/>
           </v-col>
           <v-col cols="2" class="d-flex flex-column justify-space-around px-3">
             <v-btn @click="addField()" class="mx-2" fab dark small color="primary">
@@ -16,7 +16,7 @@
             </v-btn>
           </v-col>
           <v-col cols="4">
-            <SelectList :list="outputFields" :selectedList="outputFieldsSelected" />
+            <SelectList :list="outputFields" :selectedList="outputFieldsSelected" @dblclick="removeThis"/>
           </v-col>
           <v-col cols="2" class="d-flex flex-column justify-space-around px-3">
             <v-btn @click="moveUp()" class="mx-2" fab dark small color="primary">
@@ -59,6 +59,25 @@ export default {
     SelectList
   },
   methods:{
+    addThis(item){
+      let found=false
+      for(let i in this.outputFields){
+        if (this.outputFields[i].text==item.text){
+          found=true
+          break
+        }
+      }
+      if (!found){
+        this.outputFields.push(item)
+      }
+    },
+    removeThis(item,index){
+      console.log(item,index)
+      this.outputFields.splice(index,1)
+      while (this.outputFieldsSelected.length>0){
+        this.outputFieldsSelected.pop()
+      }
+    },
     addField(){
       for(let i in this.availableOutputFieldsSelected){
         let found=false
