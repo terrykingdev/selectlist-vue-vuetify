@@ -19,7 +19,9 @@
 export default {
   name: 'SelectList',
   data: function () {
-    return {}
+    return {
+      selectedList_last: null
+    }
   },
   props: [
     'list',
