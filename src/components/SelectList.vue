@@ -30,13 +30,7 @@ export default {
   ],
   methods: {
     isSelected(index) {
-      let found = false
-      for (let i in this.selectedList) {
-        if (this.selectedList[i] == index) {
-          found = true
-        }
-      }
-      return found
+      return this.selectedList.indexOf(index)>=0
     },
     clickList(event, item, index) {
       let shift = event.shiftKey
@@ -49,13 +43,7 @@ export default {
         this.selectedList.sort()
         this.selectedList_last = index
       } else if (!shift && ctrl) {
-        let found = false
-        for (let i in this.selectedList) {
-          if (this.selectedList[i] == index) {
-            found = true
-          }
-        }
-        if (!found) {
+        if (this.selectedList.indexOf(index)<0){
           this.selectedList.push(index)
         }
         this.selectedList.sort()

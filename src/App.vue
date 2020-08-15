@@ -2,7 +2,6 @@
   <v-app>
     <v-main>
       <v-container fluid>
-
         <v-row>
           <v-col cols="4">
             <SelectList :list="availableOutputFields" :selectedList="availableOutputFieldsSelected" @dblclick="addThis"/>
@@ -59,59 +58,54 @@ export default {
     SelectList
   },
   methods:{
+    // Double click item is a quick add
     addThis(item){
-      let found=false
-      for(let i in this.outputFields){
-        if (this.outputFields[i].text==item.text){
-          found=true
-          break
-        }
-      }
-      if (!found){
+      // Check if already added
+      if (this.outputFields.findIndex(x => x.text == item.text)<0){
         this.outputFields.push(item)
       }
     },
     removeThis(item,index){
-      console.log(item,index)
       this.outputFields.splice(index,1)
-      while (this.outputFieldsSelected.length>0){
-        this.outputFieldsSelected.pop()
-      }
+      // Clear all selected
+      this.outputFieldsSelected = []
     },
     addField(){
+      // Add all selected fields
       for(let i in this.availableOutputFieldsSelected){
-        let found=false
-        for(let j in this.outputFields){
-          if (this.outputFields[j].text==this.availableOutputFields[this.availableOutputFieldsSelected[i]].text){
-            found=true
-          }
-        }
-        if (!found){
-          this.outputFields.push(this.availableOutputFields[this.availableOutputFieldsSelected[i]])
+        let item=this.availableOutputFields[this.availableOutputFieldsSelected[i]]
+        // Check if it's already added
+        if (this.outputFields.findIndex(x => x.text == item.text)<0){
+          this.outputFields.push(item)
         }
       }
     },
     removeField(){
+      // Remove all selected fields
       for(let i=this.outputFieldsSelected.length-1;i>=0;i--){
         this.outputFields.splice(this.outputFieldsSelected[i],1)
         this.outputFieldsSelected.pop()
       }
     },
     moveUp(){
+      // Move all selected fields up one
       if (this.outputFieldsSelected.length>0 && this.outputFieldsSelected[0]>0){
         for(let i=this.outputFieldsSelected.length-1;i>=0;i--){
           let index=this.outputFieldsSelected[i]
           this.outputFields[index] = this.outputFields.splice(index-1, 1, this.outputFields[index])[0]; // exchange shortcut
         }
+        // Reduce all selected indexes by one
         this.outputFieldsSelected = this.outputFieldsSelected.map(x => x-1)
       }
     },
     moveDown(){
+      // Move all selected fields down one
       if (this.outputFieldsSelected.length>0 && this.outputFieldsSelected[this.outputFieldsSelected.length-1]<this.outputFields.length-1){
         for(let i=this.outputFieldsSelected.length-1;i>=0;i--){
           let index=this.outputFieldsSelected[i]
           this.outputFields[index] = this.outputFields.splice(index+1, 1, this.outputFields[index])[0]; // exchange shortcut
         }
+        // Increase all selected indexes by one
         this.outputFieldsSelected = this.outputFieldsSelected.map(x => x+1)
       }
     },
